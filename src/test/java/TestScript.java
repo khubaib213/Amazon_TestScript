@@ -8,6 +8,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.swing.*;
@@ -15,15 +18,20 @@ import java.time.Duration;
 
 
 public class TestScript {
-    @Test
-    public void mainTest1() throws InterruptedException{
 
-        WebDriver driver = new ChromeDriver();
-        Actions actions = new Actions(driver);
+    WebDriver driver = new ChromeDriver();
+    Actions actions = new Actions(driver);
+
+    @BeforeMethod public void setup()
+    {
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
 
         driver.get("https://www.amazon.com/?&tag=googleglobalp-20&ref=pd_sl_7nnedyywlk_e&adgrpid=159651196451&hvpone=&hvptwo=&hvadid=675114638556&hvpos=&hvnetw=g&hvrand=12072806457983618597&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1011082&hvtargid=kwd-10573980&hydadcr=2246_13649807");
         driver.manage().window().maximize();
+    }
+    @Test
+    public void mainTest1() throws InterruptedException{
+
 
 
         WebElement Button = driver.findElement(By.xpath("//*[@class='a-button-text']"));
@@ -49,8 +57,11 @@ public class TestScript {
 
         //WebElement ZipCode = driver.findElement(By.xpath("//input[@class='GLUX_Full_Width a-declarative' and @type='text']"));
         //WebElement imgContainer = driver.findElement(By.xpath("//*[@class='lnXdpd']"));
-
-
-        driver.quit();
+    }
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
